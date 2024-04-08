@@ -3,16 +3,16 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"louisweb/models"
 	"net/http"
+	"vincentweb/models"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
 
-	db, err := sql.Open("mysql", "LouisG_DB:louis12345@tcp(database-1.cbkwoowkgsdi.us-east-1.rds.amazonaws.com:3306)/LouisDB")
-
+	db, err := sql.Open("mysql", "vincentdb:vincentdb26@tcp(database-1.cgfuegyd9ftf.us-east-1.rds.amazonaws.com)/vincentdb")
+	
 	if err != nil {
 		fmt.Println("error validating sql.Open arguments")
 		panic(err.Error())
@@ -25,11 +25,11 @@ func main() {
 		panic(err.Error())
 	}
 
-	fmt.Println("Succesful Connection to Database!")
+	fmt.Println("Succesfully connect to Database!")
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
-		rows, err := db.Query("SELECT userName, userAge, userEmail FROM Users")
+		rows, err := db.Query("SELECT agentName, agentType, agentHP, agentAbility FROM agentDetail")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -37,14 +37,14 @@ func main() {
 		defer rows.Close()
 
 		for rows.Next() {
-			var user models.Users
-			err := rows.Scan(&user.UserName, &user.UserAge, &user.UserEmail)
+			var agent models.AgentDetails
+			err := rows.Scan(&agent.AgentName, &agent.AgentType, &agent.AgentHP, &agent.AgentAbility)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			fmt.Fprintf(w, "User: %+v\n", user)
+			fmt.Fprintf(w, "Agent: %+v\n", agent)
 		}
 	})
 

@@ -1,6 +1,6 @@
-module louisweb
+module vincentweb
 
-go 1.22.0
+go 1.22.1
 
 require github.com/go-sql-driver/mysql v1.8.1
 

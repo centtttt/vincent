@@ -1,7 +1,8 @@
-package models;
+package models
 
-type Users struct {
-	UserName  string
-	UserAge   int
-	UserEmail string
-};
+type AgentDetails struct {
+	AgentName    string
+	AgentType    string
+	AgentHP      int
+	AgentAbility string
+}
